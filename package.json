@@ -1,0 +1,29 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "App to shorten large url to small ad redirect directly to them.",
+  "main": "index.js",
+  "scripts": {
+    "devRun": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amangoel998/URL-Shortener.git"
+  },
+  "author": "Aman Goel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amangoel998/URL-Shortener/issues"
+  },
+  "homepage": "https://github.com/Amangoel998/URL-Shortener#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.4",
+    "shortid": "^2.2.15",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
