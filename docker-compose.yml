@@ -1,17 +1,16 @@
-version: '3'
+version: "3"
 services:
-  node:
+  app:
     container_name: url-shortener
-    image: node:12
-    working_dir: app
+    image: url-shortener
     restart: always
     build: .
     ports:
-      - '8080:3000'
-    links: 
+      - "8080:3000"
+    links:
       - mongo
   mongo:
     container_name: mongo
     image: mongo
     ports:
-      - '27017:27017'
+      - "27017:27017"
