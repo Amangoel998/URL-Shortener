@@ -26,9 +26,13 @@ connectDB();
 
 app.get('/', homeCtrl);
 
-app.get('/shortenURL', homeCtrl);
+app.get('/shortenURL', (req,res)=>{
+    res.redirect('/')
+});
 app.post('/shortenURL', shortenURL, homeCtrl);
-app.get('/customshortenURL', homeCtrl);
+app.get('/customshortenURL', (req,res)=>{
+    res.redirect('/')
+});
 app.post('/customshortenURL', customshortenURL, homeCtrl);
 
 app.get('/:url', async (req, res) => {
