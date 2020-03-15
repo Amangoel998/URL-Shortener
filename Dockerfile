@@ -1,6 +1,4 @@
-FROM node:12
-WORKDIR /app
-COPY package*.json /app/
+FROM node:12.0-slim
+COPY . .
 RUN npm install --loglevel=warn;
-RUN ls
-CMD npm start
+CMD [ "node", "server.js" ]
