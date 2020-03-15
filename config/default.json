@@ -1,3 +1,3 @@
 {
-    "mongoURI": "mongo://mongo:27017/url-shortener"
+    "mongoURI": "mongodb+srv://url-shortener-app:vfzAQd9JA2qipT1q@cluster0-e9lbe.mongodb.net/test?retryWrites=true&w=majority"
 }

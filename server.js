@@ -57,10 +57,8 @@ async function shortenURL(req, res, next) {
     var shortenedurl = null;
     if (validurl.isUri(longurl)) {
       shortenedurl = createUrl(longurl);
-      console.log(shortenedurl);
       req.success = true;
       req.shorturl = await shortenedurl;
-      console.log('Short URL is '+shortenedurl);
     } else {
       req.success = false;
       res.render('error', { msg: 'Invalid URL' });
@@ -86,7 +84,6 @@ async function customshortenURL(req, res, next) {
       }
       req.success = true;
       req.shorturl = shortenedurl;
-      console.log('Short URL is '+shortenedurl);
       return next();
     } else {
       req.success = false;

@@ -8,24 +8,37 @@ app.set('view engine', 'ejs');
 
 router.get('/', clickCtrl);
 
-router.post('/',getClicks, clickCtrl)
+router.post('/', getClicks, clickCtrl)
 
-function clickCtrl(req,res){
+function clickCtrl(req, res) {
     const clicksofurl = req.clicksofurl || null;
     const success = req.success || false;
-    res.render('clicks', {clicksofurl, success})
+    res.render('clicks', {
+        clicksofurl,
+        success
+    })
 }
 
-function getClicks(req,res, next){
-    const shorturl = req.body.shorturl;
-    if(check(shorturl, 'Invalid Custom URL').isLength({min: 3})
-    || findUrl(customurl) != null){
-        req.clicksofurl = getClicksCount(shorturl)
+async function getClicks(req, res, next) {
+    try {
+        const shorturl = req.body.shorturl;
+        if (check(shorturl, 'Invalid Custom URL').isLength({
+                min: 3
+            }) ||
+            await findUrl(customurl) != null) {
+            req.clicksofurl = await getClicksCount(shorturl)
+            req.success = true;
+        } else {
+            res.render('error', {
+                msg: "Given URL is Invalid or Doesn't Exist"
+            })
+        }
+        return next();
+    } catch (e) {
+        res.render('error', {
+            msg: 'URL is unavaiable'
+        })
     }
-    else{
-        res.render('error', {msg:"Given URL is Invalid or Doesn't Exist"})
-    }
-    return next();
 }
 
 module.exports = router
