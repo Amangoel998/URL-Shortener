@@ -1,53 +1,97 @@
 const express = require('express');
 const db = require('./config/db');
 const check = require('express-validator').check;
-const validurl = require('valid-url')
+const validurl = require('valid-url');
 
-const findurl =  require('./models/db').findURL;
-const createurl =  require('./models/db').createURL;
+const findUrl = require('./config/db').findURL;
+const createUrl = require('./config/db').createURL;
+const createCustomUrl = require('./config/db').createCustomURL;
+const connectDB = require('./config/db').connectDB;
 
+//const {findUrl, createUrl, createCustomUrl} =  require('./config/db')
 
 const app = express();
+const router = express.Router();
 
-app.use(express.json({extended: false}));
-app.use(express.urlencoded({extended:false}))
-app.use('/img', express.static(path.join(__dirname,'assets/images')))
+app.use(express.json({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
+app.use('/img', express.static('./assets/images'));
 
 // Route to click.js
 app.use('/click', require('./click'));
 
 app.set('view engine', 'ejs');
 
-// To get the mongo DB Objects
 connectDB();
 
-// This is route to clicks stats
+app.get('/', homeCtrl);
 
-app.get('/', async (req,res) =>{
-    res.render('index');
+app.get('/shortenURL', homeCtrl);
+app.post('/shortenURL', shortenURL, homeCtrl);
+app.get('/customshortenURL', homeCtrl);
+app.post('/customshortenURL', customshortenURL, homeCtrl);
+
+app.get('/:url', async (req, res) => {
+  try {
+    const fullurl = await findUrl(req.params.url);
+    if (fullurl != null) res.redirect(fullurl);
+    else res.render('error', { msg: 'The url provided is invalid' });
+  } catch (e) {
+    res.render('error', { msg: e });
+  }
 });
 
-app.post('/shortenURL', async (req, res)=>{
+function homeCtrl(req, res) {
+  const shorturl = req.shorturl || null;
+  const success = req.success || false;
+  res.render('index', { shorturl, success });
+}
+
+async function shortenURL(req, res, next) {
+  try {
     const longurl = req.body.longurl;
-    if(validurl.isUri(longurl)){
-        const shortenedurl = createurl(longurl)
-        res.render('index.js',{ shortenedurl })
-    }else{
-        res.render('error.js', {msg: 'Invalid URL'})
+    var shortenedurl = null;
+    if (validurl.isUri(longurl)) {
+      shortenedurl = createUrl(longurl);
+      console.log(shortenedurl);
+      req.success = true;
+      req.shorturl = await shortenedurl;
+      console.log('Short URL is '+shortenedurl);
+    } else {
+      req.success = false;
+      res.render('error', { msg: 'Invalid URL' });
     }
-})
-
-app.get('/:url', async (req,res) => {
-    try{
-        const fullurl = findurl(req.params.url)
-        if(fullurl!= null)
-            res.redirect(fullurl)
-        else
-            res.render('error', {msg: 'The url provided is invalid'})
-    }catch(e){
-        res.render('error', {msg: e})
+    return next();
+  } catch (e) {
+    res.render('error', { msg: e });
+  }
+}
+async function customshortenURL(req, res, next) {
+  try {
+    const longurl = req.body.longurl;
+    const customurl = req.body.customurl;
+    var shortenedurl = null;
+    if (validurl.isUri(longurl)) {
+      if (
+        check(customurl, 'Invalid Custom URL').isLength({ min: 3 }) ||
+        await findUrl(customurl) == null
+      ) {
+        shortenedurl = await createCustomUrl(longurl, customurl);
+      } else {
+        shortenedurl = await createUrl(longurl);
+      }
+      req.success = true;
+      req.shorturl = shortenedurl;
+      console.log('Short URL is '+shortenedurl);
+      return next();
+    } else {
+      req.success = false;
+      res.render('error', { msg: 'Invalid URL' });
     }
-})
-
+    res.redirect('/');
+  } catch (e) {
+    res.render('error', { msg: e });
+  }
+}
 const PORT = 3000;
-app.listen( PORT, ()=> console.log(`Server started on PORT: ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));

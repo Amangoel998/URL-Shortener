@@ -1,82 +1,107 @@
 <!DOCTYPE html>
 <html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>URL Shortener</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- CSS CDN from bootstrap -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <style>
-            .no-js #loader { display: none;  }
-		    .js #loader { display: block; position: absolute; left: 100px; top: 0; }
-        </style>
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row-md">
-                <nav class="navbar navbar-extend navbar-dark">
-                    <ul>
-                        <li class="nav-item">
-                            <img style="border-radius: 50% 50% 50% 50%;width:25px;height:25px" src="img/URL.jpg" />
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="row-md">
-                <div class="col-md-6">
-                    <form action="/shortenURL" class="form-group" method="POST">
-                        <input type="text" placeholder="Type URL" name="longurl" id="longurl"/>
-                        <button type="submit" class="btn btn-success">Shorten URL</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                    <div id="col">
-                        <div class="icon"><img src="img/easy.png"></div>
-                        <h3 class="aligncenter">Easy</h3>
-                        <p class="aligncenter">ShortURL is easy and fast, enter the long link to get your shortened link</p>
-                    </div>
-                    <div id="col">
-                        <div class="icon"><img src="img/shortened.png"></div>
-                        <h3 class="aligncenter">Shortened</h3>
-                        <p class="aligncenter">Use any link, no matter what size, ShortURL always shortens</p>
-                    </div>
-                </div>
 
-            <div class="row">
-                    <div id="col">
-                        <div class="icon"><img src="img/stats.png"></div>
-                        <h3 class="aligncenter">Statistics</h3>
-                        <p class="aligncenter">Check the amount of clicks that your shortened url received</p>
-                    </div>
-                    <div id="col">
-                        <div class="icon"><img src="img/icon-responsive.png"></div>
-                        <h3 class="aligncenter">Devices</h3>
-                        <p class="aligncenter">Compatible with smartphones, tablets and desktop</p>
-                    </div>
-                </div>
-            </div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>URL Shortener</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS CDN from bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        ul {
+            list-style-type: none;
+            margin: auto;
+            width: fit-content;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        footer {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            align-items: center;
+            background-color: #007bff;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: darkslategray;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        nav .navbar {
+            background-color: #007bff;
+        }
+
+        li a:hover {
+            color: antiquewhite;
+            background-color: #111111;
+            text-decoration: none;
+        }
+
+        #longurl {
+            margin-left: 20%;
+            margin-right: 20%;
+            width: 60%;
+        }
+
+        .no-js #loader {
+            display: none;
+        }
+
+        .js #loader {
+            display: block;
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body onload="showShortURL()">
+    <%- include ('customurlmodal')%>
+    <%- include ('successmodal')%>
+    <%- include('navbar');%>
+
+    <div class="container-fluid">
+        <h1 align="center">URL Shortener</h1>
+        <%-include ('newurl')%>
+        <div class="row-md">
+            <%- include('info');  %>
         </div>
-        <footer>
-            <div id="footerbox">
-            <div>© 2020 - Tool to shorten a long link.</div>
-          
-            <ul>
-              <li><a href="#">UrlShortener</a></li>
-              <li>|</li>
-              <li><a href="click">URL Click Counter</a></li>
-              <li>|</li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li>|</li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-            </div>
-          </footer>
+    </div>
+    </div>
+    <%- include('footer');  %>
+    </div>
     <!-- Script for bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script>
+        function showShortURL() {
+            document.getElementById('longurl').focus();
+            const success = "<%=success%>";
+            if (success == "true") {
+                $('#successModal').modal('toggle');
+            }
+        }
+    </script>
+</body>
+
 </html>

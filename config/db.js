@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const dbURI = require('config').get('mongoURI');
-const shorturl = require('../models/Shorturl');
+const config = require('config');
+const dbURI = config.get('mongoURI');
+const Shorturl = require('../models/Shorturl');
 
 // mongoose.connect(db);
 
@@ -23,33 +24,43 @@ const connectDB = async ()=>{
     }
 }
 // Function to get new shortened URL
-function createURL(furl){
-    const newobj = await shorturl.create({
+async function createURL(furl){
+    const newobj = await Shorturl.create({
         fullurl: furl
     });
     return newobj.shorturl;
 }
 // Function to find Full URL from short URL
-function findURL(surl){
-    const foundobj = await shorturl.findOne({
+async function findURL(surl){
+    const foundobj = await Shorturl.findOne({
         shorturl: surl
     });
+    if(foundobj==null)return null;
     foundobj.clicks++;
-    foundobj.save();
+    await foundobj.save();
     return foundobj.fullurl;
 }
 
 //Function to get No. of clicks using the short Url
-function getClicksCount(surl){
-    const foundobj = await shorturl.findOne({
+async function getClicksCount(surl){
+    const foundobj = await Shorturl.findOne({
         shorturl: surl
     });
     if(foundobj== null) return 0;
     return foundobj.clicks;
 }
+async function createCustomURL(lurl, surl){
+    const newobj = await Shorturl.create({
+        fullurl: lurl,
+        shorturl: surl
+    });
+    return newobj.shorturl;
+}
 
 module.exports = {
+    connectDB,
     createURL,
     findURL,
-    getClicksCount
+    getClicksCount,
+    createCustomURL
 }

@@ -4,7 +4,8 @@
   "description": "App to shorten large url to small ad redirect directly to them.",
   "main": "index.js",
   "scripts": {
-    "devRun": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,10 @@
   },
   "homepage": "https://github.com/Amangoel998/URL-Shortener#readme",
   "dependencies": {
+    "config": "^3.3.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-validator": "^6.4.0",
     "mongoose": "^5.9.4",
     "shortid": "^2.2.15",
     "valid-url": "^1.0.9"
