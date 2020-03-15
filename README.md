@@ -1,19 +1,20 @@
 # URL-Shortener
-
+##
 * Frontend technologies:
   * Javascript 6
   * Frontend framework Ejs
   * HTML, CSS, JS
 
 * Backend technologies:
- * NodeJS 12
- * MongoDB
+  * NodeJS 12
+  * MongoDB
 
 * Deployment
- * Docker & Kubernetes
+  * Docker & Kubernetes
 
 ## Goal 1
-###Implemented a URL shortening service.
+
+__Implemented a URL shortening service.__
 
 __Basic Functionality__
 * Shorten given long URL
