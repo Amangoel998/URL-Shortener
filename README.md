@@ -1,5 +1,9 @@
 # URL-Shortener
-##
+## To Run the Container App
+```
+docker build -t url-shortener .
+docker-compose up
+```
 * Frontend technologies:
   * Javascript 6
   * Frontend framework Ejs
